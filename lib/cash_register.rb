@@ -3,7 +3,7 @@ require 'pry'
 class CashRegister
 
     attr_reader :discount
-    attr_accessor :items, :total , :last_transaction_amount
+    attr_accessor :items, :total , :last_transaction_amount, :last_transaction_quantity
 
     def initialize(employee_discount = 0)
         @total = 0
@@ -16,7 +16,8 @@ class CashRegister
             self.total += price
             self.items << title  
         end 
-        self.last_transaction_amount = price
+        self.last_transaction_amount = price * quantity
+        self.last_transaction_quantity = quantity
     end 
 
     def apply_discount
@@ -33,7 +34,8 @@ class CashRegister
             self.total = 0.0
         end 
         self.total -= self.last_transaction_amount
-        self.items.pop()
+        self.last_transaction_quantity.times do
+            self.items.pop()
+        end
     end 
-
 end
